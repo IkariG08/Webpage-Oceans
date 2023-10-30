@@ -1,0 +1,69 @@
+<%- include("partials/header"); -%>
+
+  <div class="card text-bg-dark position-relative">
+    <img src="./Images/clin.jpg" class="imgocean" alt="Savetheoceans">
+    <h1 class="maintitle top-50 start-10" id="howhelp">HOW TO HELP?</h1>
+  </div>
+
+    <br><br><br><br>
+    
+    <div class="row d-flex justify-content-center statistics-cards">
+        <div class="col custom-card">
+            <div class="card">
+              <img src="./Images/tort.jpg" class="card-img-top" alt="happytort" width="500px" height="600px">
+              <div class="card-body">
+                <h5 class="card-title">See other people/organizations that can help</h5>
+                <p class="card-text">Some of the most helpful organizations include Oceana, Ocean Conservancy, Coral Reef Alliance and many others</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col custom-card">
+            <div class="card">
+              <img src="./Images/trash.jpg" class="card-img-top" alt="trashbeach" width="500px" height="600px">
+              <div class="card-body">
+                <h5 class="card-title">Reduce plastic usage</h5>
+                <p class="card-text">By 2040, it is estimated that the amount of plastic in the oceans will triple to almost 30 million metric tons per year. Humans try to clean up the oceans, but complete ocean cleanups are nearly impossible without a significant reduction in plastic waste. </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col custom-card">
+            <div class="card">
+              <img src="./Images/phoque.jpg" class="card-img-top" alt="lephoque" width="100px">
+              <div class="card-body">
+                <h5 class="card-title">Use less energy! Seals don't like it </h5>
+                <p class="card-text">Saving energy helps the environment because most power sources produce pollution or greenhouse gases when burned.</p>
+              </div>
+            </div>
+          </div>
+    </div>
+
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // Espera a que el documento esté completamente cargado
+      $(document).ready(function() {
+         $("#howhelp").hide().slideDown(1000); // 1000 representa la duración de la animación en milisegundos (1 segundo en este caso)
+      });
+
+      $(document).ready(function() {
+            $(window).scroll(function() {
+               var windowHeight = $(window).height();
+                var scrollHeight = $(window).scrollTop();
+                var statisticsSectionTop = $('.statistics-cards').offset().top;
+
+                if (scrollHeight + windowHeight > statisticsSectionTop) {
+                   $('.statistics-cards').css({
+                        'opacity': '1',
+                       'visibility': 'visible'
+                   });
+                }
+            });
+        });
+    </script>
+
+<%- include("partials/footer"); -%>

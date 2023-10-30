@@ -1,0 +1,93 @@
+body{
+    background-color: #00b4d8;
+    font-family: 'Rowdies', cursive;
+}
+
+h1{
+    position: static;
+    text-align: center;
+    font-weight: 700;
+    right: 40%;
+    top:10%;
+    left:40%;
+}
+
+.urpart{
+    color:white;
+}
+
+.PP{
+    background-color: black;
+}
+
+.btn-warning{
+    position: absolute;
+    margin-left: 47%;
+    font-weight: 300;
+}
+
+.btn-secondary{
+    position: absolute;
+    margin-left: 47%;
+    font-weight: 300;
+}
+
+.imgocean{
+    filter:brightness(50%);
+}
+
+.maintitle {
+    color: white;
+    font-size: 4vw; /* Tamaño de fuente responsivo usando vw */
+    text-align: center;
+    position: absolute;
+    left:40%;
+    margin-top: -70px;
+
+}
+
+.stats{
+    font-size: 2rem;
+}
+
+.custom-card .card {
+    text-align: center;
+    width: 500px; /* Establece el ancho de la carta según tus necesidades */
+    height: 500px; /* Establece la altura de la carta según tus necesidades */
+    margin-bottom: 10%;
+}
+
+.btn-warning.btn-lg {
+    margin-top: 10px;
+    text-align: center; /* Centra el texto horizontalmente dentro del botón */
+    white-space: normal; /* Permite el ajuste automático del texto en múltiples líneas */
+}
+
+.graphcont{
+    text-align: center;
+}
+
+.herebtn2{
+    margin-left: -20px;
+    margin-top: -60px;
+}
+
+.imgwhale{
+    margin-left: -400px;
+}
+
+.help{
+    margin-left: -60px;
+}
+
+.statistics-cards {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.carousel-item img {
+    width: 70%;
+    height: auto; /* Esto mantiene la proporción del aspecto de la imagen */
+    margin: 0 auto; /* Esto centra la imagen horizontalmente */
+}
