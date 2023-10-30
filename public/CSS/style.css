@@ -87,7 +87,7 @@ h1{
 }
 
 .carousel-item img {
-    width: 70%;
+    width: 100vw;
     height: auto; /* Esto mantiene la proporción del aspecto de la imagen */
     margin: 0 auto; /* Esto centra la imagen horizontalmente */
 }
