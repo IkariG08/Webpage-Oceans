@@ -1,0 +1,48 @@
+<%- include("partials/header"); -%>
+
+
+<br><br>
+<div class="container w-75 bg-body-secondary mt-3 rounded shadow">
+    <div class="row align-items-stretch">
+        <div class="col d-none d-lg-block col-md-3 col-lg-4 col-xl-5">
+            <img class="bg" src="./Images/sealcute.jpg" width="100%">
+        </div>
+
+        <div class="col bg-body-tertiary p-2 rounded-end flex-grow grow">
+            <br><br><br><br>
+            <div class="text-end text-center my-3">
+                <h3>Don't have an account? Create one and join us in order to save our oceans!</h3>
+            </div>
+
+            <form action="/register/process" method="get">
+                <div class="mb-4">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="name" id="name">
+                </div>
+                <div class="mb-4">
+                    <label for="lastnames" class="form-label">Last names</label>
+                    <input type="text" class="form-control" name="lname" id="lastnames">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" id="email">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" id="password">
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </div>
+                <br>
+                <div class="my_3">
+                    <span>Already have an account? <a href="/profile">Log In</a></span></br>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br><br>
+
+<%- include("partials/footer"); -%>

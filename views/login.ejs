@@ -1,0 +1,48 @@
+<%- include("partials/header"); -%>
+
+
+<br><br>
+<div class="container w-75 bg-body-secondary mt-3 rounded shadow">
+    <div class="row align-items-stretch">
+        <div class="col d-none d-lg-block col-md-3 col-lg-4 col-xl-5">
+            <img class="bg" src="/Images/sealcute.jpg" width="100%">
+        </div>
+
+        <div class="col bg-body-tertiary p-2 rounded-end flex-grow grow">
+            <br><br><br><br>
+            <div class="text-end text-center my-3">
+                <h3>Hey again! We are grateful to see you again and try to make a change!</h3>
+            </div>
+
+            <form action="/login/process" method="get">
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" id="email">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" id="password">
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Log In</button>
+                </div>
+                <% if (typeof error !== 'undefined') { %>
+                    <div class="alert alert-danger" role="alert">
+                      <%= error %>
+                    </div>
+                <% } %>
+                <div class="my_3">
+                    <span>Not registered? <a href="/register">Register now!</a></span></br>
+                </div>
+                <br><br><br>
+                <p class="phrase"><i>“When the well is dry, we know the worth of water.”</i></p>
+                <p class="phrase"><i>- Benjamin Franklin</i></p>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<br><br>
+
+<%- include("partials/footer"); -%>

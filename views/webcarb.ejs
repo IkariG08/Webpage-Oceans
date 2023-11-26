@@ -1,0 +1,57 @@
+<%- include("partials/header"); -%>
+
+<br><br><br>
+
+<h1>See if your website is eco-friendly or how much does it contaminate</h1>
+
+
+<div class="container w-75 bg-body-secondary mt-3 rounded shadow">
+    <div class="row align-items-stretch">
+        <div class="col d-none d-lg-block col-md-3 col-lg-4 col-xl-5">
+            <img class="bg" src="/Images/ecofriendly.jpg" width="100%">
+        </div>
+<div class="col bg-body-tertiary p-2 rounded-end flex-grow grow">
+    <br><br><br><br>
+
+    <form action="/webcarb/result" method="get">
+        <div class="mb-4">
+            <label for="url" class="form-label">URL</label>
+            <input type="url" class="form-control" name="urlform" id="urlform" placeholder="https://www.google.com">
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Check</button>
+        </div>
+        <br><br><br>
+    </form>
+
+ <!-- Mostrar el rating si existe en los resultados -->
+<% if (typeof result !== 'undefined' && result && result.rating) { %>
+    <div class="mt-4">
+        <h3>In terms of eco-friendly, your website gets a:</h3>
+        <p><%= result.rating %></p>
+    </div>
+<% } else if (typeof result !== 'undefined' && result && result.error) { %>
+    <div class="mt-4 text-danger">
+        <p><strong>Error:</strong> <%= result.error %></p>
+    </div>
+<% } %>
+
+<% if (typeof result !== 'undefined' && result && result.statistics && result.statistics.co2 && result.statistics.co2.grid && result.statistics.co2.grid.grams) { %>
+    <div class="mt-4">
+        <h3>Grams of CO2 produced (per view):</h3>
+        <p><%= result.statistics.co2.grid.grams %></p>
+    </div>
+<% } %>
+
+<% if (typeof result !== 'undefined' && result && result.statistics && result.statistics.co2 && result.statistics.co2.grid && result.statistics.co2.grid.litres) { %>
+    <div class="mt-4">
+        <h3>Liters of CO2 produced (per view):</h3>
+        <p><%= result.statistics.co2.grid.litres %></p>
+    </div>
+<% } %>
+
+</div>
+</div>
+</div>
+<br><br><br><br>
+<%- include("partials/footer"); -%>
