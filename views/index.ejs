@@ -8,58 +8,62 @@
 
     <h1 class="stats">SOME STATISTICS...</h1>
 
-    <br><br><br><br>
+    <br><br><br>
     
     <div class="row justify-content-center statistics-cards" id="stats">
-        <div class="col sm-12 md-6 lg-4 custom-card">
+        <div class="col sm-12 md-6 lg-4 custom-card" id="reorg">
           <div class="card">
             <img src="./Images/piechart.jpg" class="card-img-top" alt="piechart" width="500px" height="600px">
             <div class="card-body">
               <h5 class="card-title">Causes of animal extinction</h5>
               <p class="card-text">Modern legal hunting is not shown in the pie chart because it does NOT cause a species to become threatened or endangered.</p>
+              <a href="https://www.hunter-ed.com/pennsylvania/studyGuide/Causes-of-Threatened-and-Endangered-Species/20103901_88720/" class="card-link" target="_blank">Learn more... </a>
             </div>
           </div>
         </div>
-        <div class="col sm-12 md-6 lg-4 custom-card">
+        <div class="col sm-12 md-6 lg-4 custom-card" id="reorg">
           <div class="card">
             <img src="./Images/chart2.jpeg" class="card-img-top" alt="chart2" width="500px" height="600px">
-            <div class="card-body">
-            </div>
           </div>
         </div>
-        <div class="col sm-12 md-6 lg-4 custom-card">
+        <div class="col sm-12 md-6 lg-4 custom-card" id="reorg">
           <div class="card">
             <img src="./Images/map.jpg" class="card-img-top" alt="map" width="500px" height="600px">
             <div class="card-body">
               <h5 class="card-title">World map of fish species richness</h5>
               <p class="card-text">Map provided by the WWF and The Nature Company</p>
+              <a href="https://www.feow.org/global-maps/biodiversity/freshwater_fish_species_richness" class="card-link" target="_blank">Learn more... </a>
             </div>
           </div>
         </div>
-        <div class="col sm-12 md-6 lg-4 custom-card">
+        <div class="col sm-12 md-6 lg-4 custom-card" id="reorg">
           <div class="card">
             <img src="./Images/dedshark.jpg" class="card-img-top" alt="IlegalSharkHunt" width="500px" height="600px">
             <div class="card-body">
               <h5 class="card-title">Ilegal shark hunt</h5>
               <p class="card-text">Thousands of sharks are currently hunted to cut off their fins and are returned to the sea to die slowly.</p>
+              <a href="https://www.shark-watch.org/illegal-activity" class="card-link" target="_blank">Learn more... </a>
             </div>
           </div>
         </div>
-        <div class="col sm-12 md-6 lg-4 custom-card">
+        <div class="col sm-12 md-6 lg-4 custom-card" id="reorg">
             <div class="card">
               <img src="./Images/rightwhale.jpg" class="card-img-top" alt="rightWhale" width="500px" height="600px">
               <div class="card-body">
                 <h5 class="card-title">Next target: North Atlantic Right Whale</h5>
                 <p class="card-text">There are only around 400 North Atlantic right whales left in our oceans and deaths are increasing each year. Currently the most endangered species</p>
+                <a href="https://www.worldwildlife.org/species/north-atlantic-right-whale" class="card-link" target="_blank">Learn more... </a>
               </div>
             </div>
           </div>
-          <div class="col sm-12 md-6 lg-4 custom-card">
+          <div class="col sm-12 md-6 lg-4 custom-card" id="reorg">
             <div class="card">
               <img src="./Images/coralreef.jpg" class="card-img-top" alt="rightWhale" width="500px" height="600px">
               <div class="card-body">
                 <h5 class="card-title">Bleaching of coral reefs</h5>
-                <p class="card-text">Unusually warm waters are stressing sensitive corals, causing the fourth major bleaching event in the last seven years</p>
+                <p class="card-text">Unusually warm waters are stressing sensitive corals, causing the fourth major bleaching event in the last seven years <br>
+                  <a href="https://www.worldwildlife.org/pages/everything-you-need-to-know-about-coral-bleaching-and-how-we-can-stop-it" class="card-link" target="_blank" style="padding-top: -20px;">Learn more... </a>
+                </p>
               </div>
             </div>
           </div>
@@ -82,14 +86,6 @@
           </div>
         </div>
     </div>
-
-    <div class="container">
-      <div class="row d-flex justify-content-center">
-          <div class="col-12">
-            <div class="tapar"></div>
-          </div>
-      </div>
-  </div>
     
 
     <div class="container">
@@ -199,28 +195,7 @@
       </button>
     </div>
 
+    <br><br>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  // Espera a que el documento esté completamente cargado
-  $(document).ready(function() {
-      $("#main").hide().slideDown(1000); // 1000 representa la duración de la animación en milisegundos (1 segundo en este caso)
-  });
-
-  $(document).ready(function() {
-        $(window).scroll(function() {
-            var windowHeight = $(window).height();
-            var scrollHeight = $(window).scrollTop();
-            var statisticsSectionTop = $('.statistics-cards').offset().top;
-
-            if (scrollHeight + windowHeight > statisticsSectionTop) {
-                $('.statistics-cards').css({
-                    'opacity': '1',
-                    'visibility': 'visible'
-                });
-            }
-        });
-    });
-</script>
+    
 <%- include("partials/footer"); -%>
