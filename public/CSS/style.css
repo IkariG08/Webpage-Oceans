@@ -13,11 +13,11 @@ h1{
 }
 
 .urpart{
-    color:white;
+    color:#052c65;
 }
 
 .PP{
-    background-color: black;
+    background-color: white;
 }
 
 .btn-warning{
@@ -50,6 +50,10 @@ h1{
     font-size: 2rem;
 }
 
+#reorg{
+    padding-left: 4%;
+}
+
 .custom-card .card {
     text-align: center;
     width: 500px; /* Establece el ancho de la carta según tus necesidades */
@@ -73,6 +77,7 @@ h1{
 }
 
 .imgwhale{
+    text-align: left;
     margin-bottom: -72px;
 }
 
@@ -87,7 +92,38 @@ h1{
 }
 
 .carousel-item img {
-    width: 100vw;
-    height: auto; /* Esto mantiene la proporción del aspecto de la imagen */
+    width: 30vw;
+    height: 50vw; /* Esto mantiene la proporción del aspecto de la imagen */
     margin: 0 auto; /* Esto centra la imagen horizontalmente */
+}
+
+#footer{
+    background-color: white;
+    height: 300px;
+}
+
+.icons{
+    text-align: center;
+    cursor: pointer;
+    color:gray;
+}
+
+.icon:hover{
+    color:#00b4d8;
+}
+
+.icons svg+svg{
+    margin-left: 20px;
+}
+
+#copyright{
+    margin-left: -15px;
+}
+
+.phrase{
+    text-align: center;
+}
+
+#profbut{
+    margin-bottom: 20px;
 }
