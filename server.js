@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const mongoose = require("mongoose");
 const app = express();
 const bodyParser = require("body-parser");
 const https = require("https");
@@ -10,8 +11,26 @@ app.use(express.static(__dirname + '/public'));
 app.engine("ejs", require("ejs").renderFile);
 
 
-// Variable global para almacenar los usuarios registrados
-let registeredUsers = [];
+// Conéctate a MongoDB Atlas
+mongoose.connect("mongodb+srv://Giorgio-admin:cardenas29160810@cluster0.tkjjasv.mongodb.net/WebpageOceans?retryWrites=true&w=majority", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+
+
+// Definir un esquema para los usuarios
+const userSchema = new mongoose.Schema({
+  name: String,
+  lname: String,
+  email: String,
+  password: String,
+});
+
+
+// Crear el modelo de usuario
+const User = mongoose.model("registeredusers", userSchema);
+
 
 
 // Configuración de sesión
@@ -21,26 +40,22 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
-app.get("/help", (req, res) => {
-  res.render("help");
-});
-
-const requireLogin = (req, res, next) => {
+const requireLogin = async (req, res, next) => {
   if (req.session.isLoggedIn) {
-    // Obtener información del usuario actual
-    const currentUser = registeredUsers.find(user => user.email === req.session.email);
+    try {
+      // Obtener información del usuario actual desde MongoDB
+      const currentUser = await User.findOne({ email: req.session.email });
 
-    // Verificar si el usuario está definido
-    if (currentUser) {
-      // Agregar la información del usuario a res.locals
-      res.locals.user = currentUser;
+      // Verificar si el usuario está definido
+      if (currentUser) {
+        // Agregar la información del usuario a res.locals
+        res.locals.user = currentUser;
 
-      // Permitir el acceso
-      return next();
+        // Permitir el acceso
+        return next();
+      }
+    } catch (error) {
+      console.error("Could not find users in database", error.message);
     }
   }
 
@@ -48,34 +63,42 @@ const requireLogin = (req, res, next) => {
   res.redirect("/login");
 };
 
-// Ruta protegida - Web Carbon Calculator
-app.get("/webcarb", requireLogin, (req, res) => {
-  res.render("webcarb");
+
+
+app.get("/", (req, res) => {
+  res.render("index");
 });
+
 
 app.get("/login", (req, res) => {
   res.render("login");
 });
 
 // Ruta de procesamiento de inicio de sesión
-app.get("/login/process", (req, res) => {
+app.get("/login/process", async (req, res) => {
   const { email, password } = req.query;
 
-  // Buscar al usuario en la variable global
-  const user = registeredUsers.find(user => user.email === email && user.password === password);
+  try {
+    // Buscar al usuario en la base de datos
+    const user = await User.findOne({ email, password });
 
-  if (user) {
-    // Establecer la sesión como iniciada
-    req.session.isLoggedIn = true;
-    req.session.email = email;  // Asegurarse de que la sesión contenga el correo electrónico del usuario
+    if (user) {
+      // Establecer la sesión como iniciada
+      req.session.isLoggedIn = true;
+      req.session.email = email;
 
-    // Redirigir a la página de perfil después del inicio de sesión exitoso
-    res.redirect("/profile");
-  } else {
-    // Mostrar mensaje de error si el usuario no existe
-    res.render("login", { error: "User not found, please check your data" });
+      // Redirigir a la página de perfil después del inicio de sesión exitoso
+      res.redirect("/profile");
+    } else {
+      // Mostrar mensaje de error si el usuario no existe
+      res.render("login", { error: "User not found. Please check your data and try again." });
+    }
+  } catch (error) {
+    console.error("Login error", error.message);
+    res.status(500).send("Server error while trying login");
   }
 });
+
 
 app.get("/register", (req, res) => {
   res.render("register");
@@ -83,60 +106,93 @@ app.get("/register", (req, res) => {
 
 
 // Ruta de procesamiento de registro
-app.get("/register/process", (req, res) => {
+app.get("/register/process", async (req, res) => {
   const { name, lname, email, password } = req.query;
 
-  // Validar que los campos no estén vacíos (deberías agregar más validaciones)
+  // Validar que los campos no estén vacíos
   if (!name || !lname || !email || !password) {
-    return res.send("Please fill all of the blanks");
+    return res.render("register", {error: "Please fill all the blanks"});
   }
 
-  // Verificar si el usuario ya está registrado
-  const userExists = registeredUsers.find(user => user.email === email);
-  if (userExists) {
-    return res.send("This email is already registered, please use another one");
+  try {
+    // Verificar si el usuario ya está registrado
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.render("register", {error: "This user is already registered"});
+    }
+
+    // Crear un nuevo usuario
+    const newUser = new User({
+      name,
+      lname,
+      email,
+      password,
+    });
+
+    // Guardar el usuario en la base de datos
+    await newUser.save();
+
+    // Redirigir a la página de perfil después del registro
+    console.log("Usuario registrado exitosamente");
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Register error: ", error.message);
+    res.status(500).send("Server error while trying to register");
   }
-
-  // Guardar al usuario en la variable global
-  registeredUsers.push({ name, lname, email, password });
-
-  // Redirigir a la página de perfil después del registro (puedes cambiar la ruta según tu lógica)
-  console.log("Usuario registrado exitosamente");
-  res.redirect("/login");
 });
+
+
+
+// Ruta protegida - Web Carbon Calculator
+app.get("/webcarb", requireLogin, (req, res) => {
+  res.render("webcarb");
+});
+
+
 
 // Ruta protegida - Profile
 app.get("/profile", requireLogin, (req, res) => {
   res.render("profile");
 });
 
-// Ruta para procesar la actualización de configuraciones
-app.post("/save_settings", requireLogin, (req, res) => {
-  const { firstname, lastname, email } = req.body;
 
-  // Validar que los campos no estén vacíos (puedes agregar más validaciones según tu lógica)
-  if (!firstname || !lastname || !email) {
-    return res.send("Please fill all of the blanks");
-  }
 
-  // Obtener el usuario actual desde res.locals
+// Ruta para guardar cambios en la configuración del usuario
+app.post("/save_settings", requireLogin, async (req, res) => {
   const currentUser = res.locals.user;
 
-  // Actualizar los campos del usuario actual
-  currentUser.name = firstname;
-  currentUser.lname = lastname;
-  currentUser.email = email;
+  const { firstname, lastname, email } = req.body;
 
-  // Redirigir a la página de perfil después de guardar las configuraciones
-  res.redirect("/profile");
+  try {
+    // Buscar al usuario en la base de datos
+    const user = await User.findOne({ email: currentUser.email });
+
+    if (user) {
+      // Actualizar los campos
+      user.name = firstname || user.name;
+      user.lname = lastname || user.lname;
+
+      // Guardar los cambios en la base de datos
+      await user.save();
+
+      // Redirigir a la página de perfil después de guardar los cambios
+      res.redirect("/profile");
+    } else {
+      // Mostrar mensaje de error si el usuario no existe
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error("Error while trying to save new info: ", error.message);
+    res.status(500).send("Internal server error");
+  }
 });
 
 app.post("/logout", requireLogin, (req, res) => {
   // Destruir la sesión
   req.session.destroy((err) => {
     if (err) {
-      console.error("Error al cerrar sesión:", err);
-      res.status(500).send("Error al cerrar sesión");
+      console.error("Logout error: ", err);
+      res.status(500).send("Logout error");
     } else {
       // Redirigir a la página de inicio después de cerrar sesión
       res.redirect("/");
@@ -145,23 +201,27 @@ app.post("/logout", requireLogin, (req, res) => {
 });
 
 // Ruta para eliminar la cuenta
-app.post("/del_acc", requireLogin, (req, res) => {
-  // Obtener el usuario actual desde res.locals
+app.post("/del_acc", requireLogin, async (req, res) => {
   const currentUser = res.locals.user;
 
-  // Eliminar al usuario de la variable global
-  registeredUsers = registeredUsers.filter(user => user.email !== currentUser.email);
+  try {
+    // Eliminar al usuario de la base de datos
+    await User.deleteOne({ email: currentUser.email });
 
-  // Destruir la sesión
-  req.session.destroy((err) => {
-    if (err) {
-      console.error("Error al eliminar la cuenta y cerrar sesión:", err);
-      res.status(500).send("Error al eliminar la cuenta y cerrar sesión");
-    } else {
-      // Redirigir a la página de inicio después de eliminar la cuenta y cerrar sesión
-      res.redirect("/");
-    }
-  });
+    // Destruir la sesión
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Delete account error: ", err);
+        res.status(500).send("Delete account error");
+      } else {
+        // Redirigir a la página de inicio después de eliminar la cuenta y cerrar sesión
+        res.redirect("/");
+      }
+    });
+  } catch (error) {
+    console.error("Delete account error: ", error.message);
+    res.status(500).send("Delete account error");
+  }
 });
 
 
@@ -193,8 +253,8 @@ app.get("/webcarb/result", (req, res) => {
       console.log("URL registrada exitosamente")
     });
   }).on("error", (err) => {
-    console.error("Error al hacer la solicitud a la API:", err.message);
-    res.send("Hubo un error al obtener los datos del sitio web");
+    console.error("API call error: ", err.message);
+    res.send("There was an error while trying to get your website's data. Please try another one.");
   });
 });
 
