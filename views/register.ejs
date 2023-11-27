@@ -5,7 +5,7 @@
 <div class="container w-75 bg-body-secondary mt-3 rounded shadow">
     <div class="row align-items-stretch">
         <div class="col d-none d-lg-block col-md-3 col-lg-4 col-xl-5">
-            <img class="bg" src="./Images/sealcute.jpg" width="100%">
+            <img class="bg" src="/Images/sealcute.jpg" width="100%">
         </div>
 
         <div class="col bg-body-tertiary p-2 rounded-end flex-grow grow">
@@ -35,6 +35,11 @@
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Sign up</button>
                 </div>
+                <% if (typeof error !== 'undefined') { %>
+                    <div class="alert alert-danger" role="alert">
+                      <%= error %>
+                    </div>
+                <% } %>
                 <br>
                 <div class="my_3">
                     <span>Already have an account? <a href="/profile">Log In</a></span></br>
